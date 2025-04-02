@@ -249,7 +249,6 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
     
 
 
-
 }
 
 
