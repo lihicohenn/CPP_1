@@ -2,7 +2,8 @@
 //#include "Edge.hpp"
 #include <iostream>
 
-using namespace graph;
+namespace graph{
+
 
 Graph::Graph(int num){
     numOfVertex = num;
@@ -76,6 +77,14 @@ void Graph::addEdge(int src, int dest, int weight){
     
 }
 
+   Edge Graph::getNeighbor(int vertex, int index) {
+    if (vertex < 0 || vertex >= numOfVertex || index < 0 || index >= size[vertex]) {
+        throw std::out_of_range("Invalid neighbor index");
+    }
+    return adjList[vertex][index];
+}
+ 
+
     void Graph::print_graph() {
         for (int i = 0; i < numOfVertex; i++) {
             std::cout << "Vertex " << i << ":";
@@ -99,15 +108,6 @@ void Graph::addEdge(int src, int dest, int weight){
     return size[vertex];
     }
 
-    Edge Graph::getNeighbor(int vertex, int index) {
-    if (vertex < 0 || vertex >= numOfVertex) {
-        throw "Invalid vertex index";
-    }
-    if (index < 0 || index >= size[vertex]) {
-        throw "Neighbor index out of bounds";
-    }
-    return adjList[vertex][index];
-    }
 
     int Graph::getNumEdges() const {
     int count = 0;
@@ -116,5 +116,7 @@ void Graph::addEdge(int src, int dest, int weight){
     }
     return count / 2;  // כל קשת מופיעה פעמיים (גרף לא מכוון)
     }
+}
+
 
    

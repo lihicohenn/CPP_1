@@ -22,8 +22,8 @@ int main() {
     //Graph bfsTree = algo.bfs(g, 0); 
     //Graph dfsTree = algo.dfs(g, 0);
 
-    Graph kruskalTree = algo.kruskal(g);
+    Graph primTree = algo.prim(g);
 
-    kruskalTree.print_graph();
+    primTree.print_graph();
     
     }

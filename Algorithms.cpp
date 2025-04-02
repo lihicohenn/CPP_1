@@ -245,14 +245,61 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
     }
 
 
-    Graph Algorithms::prim(Graph& graph) {
-    
+        Graph Algorithms::prim(Graph& graph) {
+        int n = graph.getNumVertex();
+        int key[n];
+        int p[n];
+
+        PriorityQueue pq(n);
+
+        // Step 1: Initialization
+        for (int i = 0; i < n; i++) {
+            key[i] = INF;
+            p[i] = -1;
+            pq.insert(i, key[i]);  // insert vertex with INF initially
+        }
+
+        int s = 0;
+        key[s] = 0;
+        pq.DecreaseKey(s, 0);  // source starts with key 0
+
+        // Step 2: Prim's main loop
+        while (!pq.isEmpty()) {
+            PQNode u = pq.ExtractMin();  // vertex with smallest key
+            int uIndex = u.value;
+
+            int deg = graph.getNeighborCount(uIndex);
+            for (int i = 0; i < deg; i++) {
+                Edge e = graph.getNeighbor(uIndex, i);
+                int v = e.dest;
+                int weight = e.weight;
+
+                // If v is still in the queue and this edge is better
+                int idx = pq.getIndex(v);
+                if (idx != -1 && weight < key[v]) {
+                    key[v] = weight;
+                    p[v] = uIndex;
+                    pq.DecreaseKey(v, weight);
+                }
+            }
+        }
+
+        // Step 3: Build the MST
+        Graph mst(n);
+        for (int v = 0; v < n; v++) {
+            if (p[v] != -1) {
+                mst.addEdge(v, p[v], key[v]);  // or (p[v], v)
+            }
+        }
+
+        return mst;
+    }
+
+
 
 
 }
 
-
-}
 
 
 

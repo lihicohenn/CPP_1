@@ -18,9 +18,10 @@ namespace graph {
             int findEdgeIndex(int src, int dest);
             void print_graph();
             int getNumVertex();
-            Edge getNeighbor(int vertex, int index);
             int getNeighborCount(int vertex);
             int getNumEdges() const;
             void getAllEdges(Edge* arr) const;
+            Edge getNeighbor(int vertex, int index);
+            
         };
     };
