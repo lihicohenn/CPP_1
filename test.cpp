@@ -1,7 +1,6 @@
-//lihicohen1123@gmail.com
-#include <iostream>
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include <doctest/doctest.h>
+#include "doctest.h"
+// #include <doctest/doctest.h>
 #include "Graph.hpp"
 #include "Algorithms.hpp"
 #include "UnionFind.hpp"
@@ -19,7 +18,7 @@ TEST_CASE("Graph testing"){
     CHECK(g.getNeighborCount(0) == 1);
     CHECK(g.getNeighbor(0, 0).dest == 1);
 
-    
 
 
 }
+

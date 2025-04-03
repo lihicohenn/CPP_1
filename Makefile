@@ -1,8 +1,8 @@
 #lihicohen1123@gmail.com
-C=g++
-HEADERS=Edge.hpp Graph.hpp Queue.hpp Algorithms.hpp UnionFind.hpp PriorityQueue.hpp doctest.h
+C=g++ -std=c++11
+HEADERS=Edge.hpp Graph.hpp Queue.hpp Algorithms.hpp UnionFind.hpp PriorityQueue.hpp
 Target=main
-TEST_TARGET=Test_prog
+TEST_TARGET=Test
 FLAGS=-c -g -Wall
 OBJECT=Graph.o main.o Queue.o Algorithms.o UnionFind.o PriorityQueue.o
 TEST_OBJ=Graph.o Queue.o Algorithms.o UnionFind.o PriorityQueue.o test.o

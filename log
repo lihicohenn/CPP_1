@@ -1,0 +1,3 @@
+g++ -std=c++11 -c -g -Wall test.cpp
+cc   test.o   -o test
+cc   test.o   -o test
