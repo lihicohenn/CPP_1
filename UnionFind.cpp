@@ -1,3 +1,4 @@
+//lihicohen1123@gmail.com
 #include "UnionFind.hpp"
 #include <stdexcept>
 
@@ -18,6 +19,9 @@ namespace graph {
     }
     
     UFNode* UnionFind::find(UFNode* node) {
+        if (node == nullptr) {
+            throw std::invalid_argument("Invalid node");
+        }
         if (node->parent != node) {
             node->parent = find(node->parent);  // דחיסת נתיב
         }

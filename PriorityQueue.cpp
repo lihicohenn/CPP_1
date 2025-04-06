@@ -1,3 +1,4 @@
+//lihicohen1123@gmail.com
 #include "PriorityQueue.hpp"
 #include <stdexcept>
 
@@ -67,7 +68,7 @@ namespace graph {
         size++; }
 
 
-        void PriorityQueue::DecreaseKey(int value, int newKey) {
+        void PriorityQueue::decreaseKey(int value, int newKey) {
         int i = getIndex(value);
         if (i == -1) {
         throw std::invalid_argument("Value not found in heap");
@@ -94,7 +95,7 @@ namespace graph {
         return size == 0;
         }
 
-    PQNode PriorityQueue::ExtractMin() {
+    PQNode PriorityQueue::extractMin() {
         if (isEmpty()) {
             throw std::out_of_range("PriorityQueue is empty");
         }

@@ -1,3 +1,4 @@
+//lihicohen1123@gmail.com
 #pragma once
 #include <iostream>
 
@@ -22,8 +23,8 @@ namespace graph {
     public:
     PriorityQueue(int maxSize);
     ~PriorityQueue();
-    PQNode ExtractMin();
-    void DecreaseKey(int value, int newKey); 
+    PQNode extractMin();
+    void decreaseKey(int value, int newKey); 
     void insert(int value, int key); 
     bool isEmpty() const;
     int getIndex(int value) const; 

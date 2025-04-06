@@ -1,3 +1,4 @@
+//lihicohen1123@gmail.com
 #include "Edge.hpp"
 
 namespace graph {
@@ -22,6 +23,7 @@ namespace graph {
             int getNumEdges() const;
             void getAllEdges(Edge* arr) const;
             Edge getNeighbor(int vertex, int index);
+            bool isConnected();
             
         };
     };

@@ -1,19 +1,17 @@
+//lihicohen1123@gmail.com
 #include "Graph.hpp"
 #include "Queue.hpp"
 #include "Algorithms.hpp"
 #include "PriorityQueue.hpp"
 #include "UnionFind.hpp"
+// #include <limits>
 #define INF 1000000000
 #include <iostream>
 
 namespace graph{
     
-    Algorithms::Algorithms(){
-        std::cout << "Algorithms constructor called" << std::endl;
-    }
-    Algorithms::~Algorithms(){
-        std::cout << "Algorithms destructor called" << std::endl;
-    }
+    Algorithms::Algorithms(){}
+    Algorithms::~Algorithms(){}
 
     Graph Algorithms::bfs(Graph& graph, int src) {
             
@@ -70,6 +68,9 @@ namespace graph{
 }
 
 Graph Algorithms::dfs(Graph& graph, int src){
+    if (src < 0 || src >= graph.getNumVertex()) {
+        throw std::runtime_error("Invalid source vertex");
+    }
     int numVer = graph.getNumVertex();
     Color color[numVer];
     int p[numVer];
@@ -126,6 +127,9 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
 
 
     Graph Algorithms::dijkstra(Graph& graph, int src) {
+        if (src < 0 || src >= graph.getNumVertex()) {
+            throw "Invalid source vertex";
+        }
         int numVer = graph.getNumVertex();
         int d[numVer];
         int p[numVer];
@@ -143,7 +147,7 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
         }
 
         while (!pq.isEmpty()) {
-            PQNode u = pq.ExtractMin();
+            PQNode u = pq.extractMin();
             relax(u.value, graph, d, p, pq); 
         }
 
@@ -173,13 +177,23 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
         if (d[u] + weight < d[v]) {
             d[v] = d[u] + weight;
             p[v] = u;
-            pq.DecreaseKey(v, d[v]);
+            pq.decreaseKey(v, d[v]);
             }
         }
     }
 
    
     Graph Algorithms::kruskal(Graph& graph) {
+
+    if (graph.getNumVertex()==0 || graph.getNumEdges()==0) {
+        throw std::runtime_error("Graph is empty");
+    }
+
+    if (!graph.isConnected()) {
+        throw std::runtime_error("Graph is not connected");
+    }
+
+
     int n = graph.getNumVertex();
     Graph A(n);  // A ← ∅
 
@@ -246,6 +260,17 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
 
 
         Graph Algorithms::prim(Graph& graph) {
+            
+
+        if (graph.getNumVertex() == 0 || graph.getNumEdges() == 0) {
+            throw std::runtime_error("Graph is empty");
+            }
+
+            if (!graph.isConnected()) {
+                throw std::runtime_error("Graph is not connected");
+            }
+        
+            
         int n = graph.getNumVertex();
         int key[n];
         int p[n];
@@ -261,11 +286,11 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
 
         int s = 0;
         key[s] = 0;
-        pq.DecreaseKey(s, 0);  // source starts with key 0
+        pq.decreaseKey(s, 0);  // source starts with key 0
 
         // Step 2: Prim's main loop
         while (!pq.isEmpty()) {
-            PQNode u = pq.ExtractMin();  // vertex with smallest key
+            PQNode u = pq.extractMin();  // vertex with smallest key
             int uIndex = u.value;
 
             int deg = graph.getNeighborCount(uIndex);
@@ -279,7 +304,7 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
                 if (idx != -1 && weight < key[v]) {
                     key[v] = weight;
                     p[v] = uIndex;
-                    pq.DecreaseKey(v, weight);
+                    pq.decreaseKey(v, weight);
                 }
             }
         }
@@ -295,17 +320,5 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
         return mst;
     }
 
-
-
-
 }
-
-
-
-
-            
-
-
-
-
 
