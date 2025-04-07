@@ -39,6 +39,7 @@ valgrind:$(Target)
 
 valgrind_tests:$(TEST_TARGET)
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(TEST_TARGET)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(Target)
 
 .PHONY:$(Target) clean
 

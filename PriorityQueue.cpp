@@ -73,7 +73,7 @@ namespace graph {
         void PriorityQueue::decreaseKey(int value, int newKey) {
         int i = getIndex(value);
         if (i == -1) {  // Check if the value exists in the heap
-        throw std::invalid_argument("Value not found in heap");
+        return;
         }
 
         if (newKey > heap[i].key) {
