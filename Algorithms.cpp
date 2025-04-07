@@ -4,8 +4,7 @@
 #include "Algorithms.hpp"
 #include "PriorityQueue.hpp"
 #include "UnionFind.hpp"
-// #include <limits>
-#define INF 1000000000
+#include <limits>
 #include <iostream>
 
 namespace graph{
@@ -21,28 +20,30 @@ namespace graph{
     enum Color { WHITE, GREY, BLACK };
     int num = graph.getNumVertex();
     Color color [num];
-    int d[num];
-    int p[num];
+    int d[num]; // Array of distances from each vertex to the source
+    int p[num]; // Array of predecessors for each vertex
 
+    // Initialize color, distance, and predecessor arrays, doesn not found yet path
     for (int i = 0; i < num; ++i) {
         color[i] = WHITE;
-        d[i] = INF;
+        d[i] = std::numeric_limits<int>::max(); 
         p[i] = -1; 
     }
-
+    // Path from s to himself
     color[src] = GREY;
     d[src] = 0;
     p[src] = -1;
 
     Queue q;
     q.enqueue(src);
-
+    
     while (!q.isEmpty()) {
-        int u = q.dequeue().data;
+        int u = q.dequeue().data; // Dequeue the front vertex
+        // Check if the vertex is valid
         if (u < 0 || u >= num) {
         throw "Invalid vertex dequeued from queue";}
 
-
+        // Process all neighbors of u
         for (int i = 0; i < graph.getNeighborCount(u); ++i) {
             Edge e = graph.getNeighbor(u, i);
             int v = e.dest;
@@ -56,7 +57,7 @@ namespace graph{
 
         color[u] = BLACK;
     }
-
+    // Create a new graph to represent the BFS tree
     Graph tree(num);
     for (int v = 0; v < num; ++v) {
         if (p[v] != -1) {
@@ -67,13 +68,19 @@ namespace graph{
     return tree;
 }
 
+// DFS algorithm
+    // This function performs a depth-first search on the graph starting from the source vertex
+    // It returns a tree representing the DFS traversal
+    // The function uses recursion to visit each vertex and its neighbors
+    // It also keeps track of the discovery and finishing times of each vertex
 Graph Algorithms::dfs(Graph& graph, int src){
     if (src < 0 || src >= graph.getNumVertex()) {
         throw std::runtime_error("Invalid source vertex");
     }
+    // Initialize color, parent, discovery time, and finishing time arrays
     int numVer = graph.getNumVertex();
     Color color[numVer];
-    int p[numVer];
+    int p[numVer]; 
     int time;
     int d[numVer];
     int f[numVer]; 
@@ -86,14 +93,15 @@ Graph Algorithms::dfs(Graph& graph, int src){
     time = 0;
     for (int i=0; i<numVer; i++){
         if (color[i] == WHITE){
-            dfs_visit(graph,i,color, p,d,f,time);
+            dfs_visit(graph,i,color, p,d,f,time); // visit the vertex
         }
     }
-
+ 
+    // Create a new graph to represent the DFS tree
     Graph tree(numVer);
     for (int v = 0; v < numVer; ++v) {
         if (p[v] != -1) {
-            tree.addEdge(v, p[v]); // או tree.addEdge(p[v], v)
+            tree.addEdge(v, p[v]); // add the edge to the tree(tree edges)
         }
     }
 
@@ -102,10 +110,10 @@ Graph Algorithms::dfs(Graph& graph, int src){
 
 }
 
-
+// This function is a helper function for the DFS algorithm
 void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d, int* f, int& time){
 
-    color[src] = GREY;
+    color[src] = GREY; 
     time++;
     d[src] = time;
     
@@ -125,7 +133,7 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
 }
 
 
-
+    // This function implements Dijkstra's algorithm to find the shortest path from a source vertex to all other vertices in the graph
     Graph Algorithms::dijkstra(Graph& graph, int src) {
         if (src < 0 || src >= graph.getNumVertex()) {
             throw "Invalid source vertex";
@@ -135,22 +143,23 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
         int p[numVer];
 
         for (int i = 0; i < numVer; i++) {
-            d[i] = INF;
+            d[i] = std::numeric_limits<int>::max();
             p[i] = -1;
         }
 
         d[src] = 0;
-        PriorityQueue pq(numVer);
+        PriorityQueue pq(numVer); // Create a priority queue
 
         for (int i = 0; i < numVer; i++) {
-            pq.insert(i, d[i]);
+            pq.insert(i, d[i]); // Insert all vertices into the priority queue
         }
 
         while (!pq.isEmpty()) {
-            PQNode u = pq.extractMin();
-            relax(u.value, graph, d, p, pq); 
+            PQNode u = pq.extractMin(); // Extract the vertex with the smallest distance
+            relax(u.value, graph, d, p, pq); // Relax all neighbors of u
         }
 
+        // Create a new graph to represent the shortest path tree
         Graph tree(numVer);
         for (int i = 0; i < numVer; i++) {
             if (p[i] != -1) {
@@ -162,6 +171,7 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
         return tree;
     }
 
+    // This function relaxes the edges of a vertex u
     void Algorithms::relax(int u, Graph& graph, int d[], int p[], PriorityQueue& pq) {
     int neighborCount = graph.getNeighborCount(u);
 
@@ -173,7 +183,7 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
         if (v < 0 || v >= graph.getNumVertex()) {
             throw std::out_of_range("Invalid vertex index in relax()");
         }
-
+        // Relax
         if (d[u] + weight < d[v]) {
             d[v] = d[u] + weight;
             p[v] = u;
@@ -204,16 +214,15 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
 
     int m = graph.getNumEdges();
     Edge* edges = new Edge[m];
-    int* srcs = new int[m];  // כאן נשמור את ה־src של כל קשת
+    int* srcs = new int[m]; 
 
-    // נבנה edges[] ו־srcs[] בלולאה משלנו
     int index = 0;
     for (int src = 0; src < n; ++src) {
         int deg = graph.getNeighborCount(src);
         for (int i = 0; i < deg; ++i) {
             Edge e = graph.getNeighbor(src, i);
             int dest = e.dest;
-            if (src < dest) { // הימנעות מקשתות כפולות
+            if (src < dest) { // avoid duplicates
                 edges[index] = e;
                 srcs[index] = src;
                 index++;
@@ -230,7 +239,7 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
             }
         }
     }
-
+    
     for (int i = 0; i < index; ++i) {
         int v = srcs[i];
         int w = edges[i].dest;
@@ -261,7 +270,6 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
 
         Graph Algorithms::prim(Graph& graph) {
             
-
         if (graph.getNumVertex() == 0 || graph.getNumEdges() == 0) {
             throw std::runtime_error("Graph is empty");
             }
@@ -279,7 +287,7 @@ void Algorithms::dfs_visit(Graph& graph, int src , Color* color, int* p, int* d,
 
         // Step 1: Initialization
         for (int i = 0; i < n; i++) {
-            key[i] = INF;
+            key[i] = std::numeric_limits<int>::max(); 
             p[i] = -1;
             pq.insert(i, key[i]);  // insert vertex with INF initially
         }

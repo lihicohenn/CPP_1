@@ -331,31 +331,6 @@ TEST_CASE("Algorithms - Dijkstra edge cases") {
     CHECK_THROWS_WITH(a.dijkstra(unconnected, -1), "Invalid source vertex");
 
 }
-// TEST_CASE("Algorithms - Kruskal edge cases") {
-//     Algorithms a;
-
-//     // 1. Graph is connected
-//     Graph connected(4);
-//     connected.addEdge(0, 1, 3);
-//     connected.addEdge(1, 2, 1);
-//     connected.addEdge(2, 3, 2);
-//     connected.addEdge(0, 3, 5);
-//     Graph mst = a.kruskal(connected);
-//     CHECK(mst.getNumEdges() == 3);
-//     CHECK(mst.findEdgeIndex(0, 3) == -1); // should not be included because of high weight
-
-//     // 2. Graph is unconnected
-//     Graph unconnected(5);
-//     unconnected.addEdge(0, 1, 1);
-//     unconnected.addEdge(1, 2, 2);
-//     // vertices 3 and 4 are disconnected
-//     Graph kruskalResult = a.kruskal(unconnected);
-//     CHECK(kruskalResult.getNumEdges() == 2); // Only part of the graph is visited
-
-//     // 3. Kruskal with out-of-range vertex
-//     CHECK_THROWS(a.kruskal(unconnected));
-
-// }
 
 TEST_CASE("Algorithms - Kruskal edge cases") {
     Algorithms a;
@@ -391,30 +366,7 @@ TEST_CASE("Algorithms - Prim edge cases") {
     unconnected.addEdge(1, 2, 2);
     CHECK_THROWS_WITH(a.prim(unconnected), "Graph is not connected");}
 
-//  TEST_CASE("Algorithms - Prim edge cases") {
-//     Algorithms a;
 
-//     // 1. Graph is connected
-//     Graph connected(4);
-//     connected.addEdge(0, 1, 2);
-//     connected.addEdge(1, 2, 3);
-//     connected.addEdge(2, 3, 1);
-//     connected.addEdge(0, 3, 4);
-//     Graph mst = a.prim(connected);
-//     CHECK(mst.getNumEdges() == 3);
-
-//     // 2. Graph is unconnected
-//     Graph unconnected(5);
-//     unconnected.addEdge(0, 1, 1);
-//     unconnected.addEdge(1, 2, 2);
-//     // vertices 3 and 4 are disconnected
-//     Graph primResult = a.prim(unconnected);
-//     CHECK(primResult.getNumEdges() == 2); // Only part of the graph is visited
-
-//     // 3. Prim with out-of-range vertex
-//     CHECK_THROWS(a.prim(unconnected));
-
-// }
 TEST_CASE("PriorityQueue edge cases") {
     PriorityQueue pq(3);
     pq.insert(0, 10);

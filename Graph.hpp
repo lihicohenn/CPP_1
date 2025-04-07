@@ -1,5 +1,6 @@
 //lihicohen1123@gmail.com
 #include "Edge.hpp"
+#pragma once
 
 namespace graph {
 
@@ -17,7 +18,7 @@ namespace graph {
             void addEdge(int src, int dest, int weight = 1);
             void removeEdge(int src, int dest);
             int findEdgeIndex(int src, int dest);
-            void print_graph();
+            void print_graph() const;
             int getNumVertex();
             int getNeighborCount(int vertex);
             int getNumEdges() const;

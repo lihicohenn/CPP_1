@@ -7,26 +7,26 @@ namespace graph{
 
 
 Graph::Graph(int num){
-    if (num <= 0){
-        throw "Graph size must be positive";
+    if (num <= 0){ 
+        throw "Graph size must be positive"; 
     }
 
     numOfVertex = num;
-    adjList = new Edge*[numOfVertex];
-    size = new int[numOfVertex];
+    adjList = new Edge*[numOfVertex]; //Initialize the adjacency list
+    size = new int[numOfVertex]; // num of neighbors for each vertex
 
     for (int i = 0; i < numOfVertex; ++i) {
-        adjList[i] = new Edge[numOfVertex];  
+        adjList[i] = new Edge[numOfVertex];  // allocate space for neighbors
         size[i] = 0;                         
     }
 }
 
 Graph::~Graph(){
     for (int i = 0; i < numOfVertex; ++i) {
-        delete[] adjList[i]; 
+        delete[] adjList[i]; // Delete each neighbor list
     }
-        delete[] adjList;        
-        delete[] size;            
+        delete[] adjList;  // Delete the array of lists      
+        delete[] size;     //Delete the array of neighbor count      
 }
 
 
@@ -60,6 +60,7 @@ void Graph::addEdge(int src, int dest, int weight){
             throw "Invalid vertex index";
         }
         
+        // Get the index of the edge in the adjacency list
         int indexSrc = findEdgeIndex(src, dest);
         int indexDest = findEdgeIndex(dest, src);
 
@@ -67,11 +68,13 @@ void Graph::addEdge(int src, int dest, int weight){
         throw "Edge does not exist";
         }
 
+        //Shift elements left to remove edge from src list
         for (int i = indexSrc; i < size[src] - 1; ++i) {
             adjList[src][i] = adjList[src][i + 1];
         }
         size[src]--;
 
+        //Shift elements left to remove edge from dest list
         for (int i = indexDest; i < size[dest] - 1; ++i) {
             adjList[dest][i] = adjList[dest][i + 1];
         }
@@ -84,6 +87,7 @@ void Graph::addEdge(int src, int dest, int weight){
         throw "Invalid vertex index";
     }
 
+    // Iterate through src neighbors to find the matching dest
     for (int i = 0; i < size[src]; ++i) {
         if (adjList[src][i].dest == dest) {
             return i; // Found it
@@ -102,7 +106,7 @@ void Graph::addEdge(int src, int dest, int weight){
 }
  
 
-    void Graph::print_graph() {
+    void Graph::print_graph() const {
         for (int i = 0; i < numOfVertex; i++) {
             std::cout << "Vertex " << i << ":";
             for (int j = 0; j < size[i]; j++) {
@@ -129,11 +133,12 @@ void Graph::addEdge(int src, int dest, int weight){
     int Graph::getNumEdges() const {
     int count = 0;
     for (int i = 0; i < numOfVertex; ++i) {
-        count += size[i];  // סופר את כל השכנים של כל קודקוד
+        count += size[i];  // count thee neighbors of each vertex
     }
-    return count / 2;  // כל קשת מופיעה פעמיים (גרף לא מכוון)
+    return count / 2;  //because every edge shows twice
     }
 
+    // Fills the given array with all the edges in the graph
     void Graph::getAllEdges(Edge* arr) const {
         int index = 0;
         for (int src = 0; src < numOfVertex; ++src) {
@@ -141,6 +146,7 @@ void Graph::addEdge(int src, int dest, int weight){
                 int dest = adjList[src][i].dest;
                 int weight = adjList[src][i].weight;
     
+                // Only add one direction to avoid duplicates
                 if (src < dest) {
                     arr[index].dest = dest;
                     arr[index].weight = weight;
@@ -150,6 +156,7 @@ void Graph::addEdge(int src, int dest, int weight){
         }
     }
 
+    // Check if the graph is connected
     bool Graph::isConnected() {
         if (getNumVertex() == 0) return false;
     
@@ -169,7 +176,7 @@ void Graph::addEdge(int src, int dest, int weight){
                 }
             }
         }
-    
+        // If sny vertex was not visited graph is not connected
         for (int i = 0; i < getNumVertex(); i++) {
             if (!visited[i]) {
                 delete[] visited;

@@ -1,6 +1,8 @@
 //lihicohen1123@gmail.com
 #include "PriorityQueue.hpp"
 #include "Queue.hpp"
+#pragma once
+
 
 namespace graph{
 

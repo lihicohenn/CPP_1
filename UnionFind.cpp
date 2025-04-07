@@ -5,36 +5,36 @@
 namespace graph {
 
     UnionFind::UnionFind(int n) {
-        size = n;
-        count = 0;
-        nodes = new UFNode[n];
+        size = n; // size of the union-find structure
+        count = 0; // number of elements in the union-find structure
+        nodes = new UFNode[n]; // creats an array of n union-find nodes 
 
     for (int i = 0; i < n; ++i) {
-        nodes[i].parent = nullptr; }
+        nodes[i].parent = nullptr; } // initialize the parent pointer to null-ptr
     }
 
 
     UnionFind::~UnionFind(){
-        delete[] nodes;
+        delete[] nodes; // delete the array of union-find nodes
     }
     
     UFNode* UnionFind::find(UFNode* node) {
         if (node == nullptr) {
-            throw std::invalid_argument("Invalid node");
+            throw std::invalid_argument("Invalid node"); // check if the node is null
         }
         if (node->parent != node) {
-            node->parent = find(node->parent);  // דחיסת נתיב
+            node->parent = find(node->parent);  // path compression
         }
-        return node->parent;
+        return node->parent; // return the root of the set
     }
     
     void UnionFind::merge(UFNode* node1, UFNode* node2) {
-        if (!node1 || !node2) return;
+        if (!node1 || !node2) return; // check if the nodes are null
 
         UFNode* root1 = find(node1);
-        UFNode* root2 = find(node2);
+        UFNode* root2 = find(node2);  // find the roots of the sets
 
-        if (root1 == root2) return;
+        if (root1 == root2) return; // if they are already in the same set
 
         // Union by rank
         if (root1->rank < root2->rank) {
@@ -59,7 +59,7 @@ namespace graph {
     }
 
     UFNode* UnionFind::getNode(int index) {
-        return &nodes[index];
+        return &nodes[index]; // return the node at the given index
     }
 
 
